@@ -80,7 +80,10 @@ const App = () => {
       <ContactForm onSubmit={handleSubmit} />
 
       <h2>Contacts</h2>
-      <Filter value={filter} onChange={handleFilter} />
+      <Filter
+        value={filter !== undefined ? filter : ''}
+        onChange={handleFilter}
+      />
       <ContactList contacts={filteredContacts} onDelete={handleDelete} />
     </Container>
   );

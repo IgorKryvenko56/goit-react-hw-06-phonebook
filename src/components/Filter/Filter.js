@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const Filter = ({ value, onChange }) => {
+const Filter = ({ value = '', onChange }) => {
   const handleChange = e => {
     onChange(e.target.value);
   };

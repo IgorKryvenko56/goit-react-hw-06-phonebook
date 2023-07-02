@@ -10,7 +10,6 @@ import {
   ContactNumber,
   DeleteButton,
 } from './ContactList.styled';
-import ContactItem from '../ContactItem/ContactItem';
 import { nanoid } from 'nanoid';
 
 const ContactList = ({ contacts }) => {
