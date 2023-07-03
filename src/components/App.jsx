@@ -12,7 +12,7 @@ import {
   deleteContact,
   updateFilter,
 } from '../redux/contactsSlice';
-import { store, persistor } from '../redux/store';
+import { persistor } from '../redux/store';
 
 const App = () => {
   const contacts = useSelector(state => state.contacts.contacts);
