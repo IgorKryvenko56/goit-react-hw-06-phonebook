@@ -1,42 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  saveContact,
-  deleteContact,
-  updateFilter,
-} from '../redux/contactsSlice';
 import { nanoid } from 'nanoid';
+import { PersistGate } from 'redux-persist/integration/react';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import { Container, PhonebookImage } from './App.styled';
 import phonebookImage from '../asset/phonebook.png';
-
-const defaultContacts = [
-  { id: 'id-1', name: 'Rosie Simpson', phone: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', phone: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', phone: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', phone: '227-91-26' },
-];
+import {
+  saveContact,
+  deleteContact,
+  updateFilter,
+} from '../redux/contactsSlice';
+import { store, persistor } from '../redux/store';
 
 const App = () => {
   const contacts = useSelector(state => state.contacts.contacts);
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const storedContacts = localStorage.getItem('contacts');
-    if (!storedContacts) {
-      localStorage.setItem('contacts', JSON.stringify(defaultContacts));
-      dispatch(saveContact(defaultContacts));
-    } else {
-      dispatch(saveContact(JSON.parse(storedContacts)));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   const handleSubmit = contact => {
     const isDuplicateName = contacts.find(
@@ -71,21 +52,21 @@ const App = () => {
 
   const filteredContacts = filterContacts();
 
-  localStorage.clear(); // Clear local storage before returning
-
   return (
-    <Container>
-      <h1>Phonebook</h1>
-      <PhonebookImage src={phonebookImage} alt="Phonebook" />
-      <ContactForm onSubmit={handleSubmit} />
+    <PersistGate loading={null} persistor={persistor}>
+      <Container>
+        <h1>Phonebook</h1>
+        <PhonebookImage src={phonebookImage} alt="Phonebook" />
+        <ContactForm onSubmit={handleSubmit} />
 
-      <h2>Contacts</h2>
-      <Filter
-        value={filter !== undefined ? filter : ''}
-        onChange={handleFilter}
-      />
-      <ContactList contacts={filteredContacts} onDelete={handleDelete} />
-    </Container>
+        <h2>Contacts</h2>
+        <Filter
+          value={filter !== undefined ? filter : ''}
+          onChange={handleFilter}
+        />
+        <ContactList contacts={filteredContacts} onDelete={handleDelete} />
+      </Container>
+    </PersistGate>
   );
 };
 
