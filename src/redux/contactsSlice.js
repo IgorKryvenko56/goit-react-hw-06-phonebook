@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { initialContacts } from '../data/initialContacts';
+// import { initialContacts } from '../data/initialContacts';
 
 
 
 const initialState = {
-  contacts: initialContacts,
-  filters:'',
+  contacts: [],
+  filter: '',
 };
 
 export const contactsSlice = createSlice({
@@ -13,9 +13,18 @@ export const contactsSlice = createSlice({
   initialState,
   reducers: {
     saveContact: (state, action) => {
+     const { id, name, number } = action.payload;
+      const isDuplicateName = state.contacts.some(
+        contact =>
+          contact.name && contact.name.toLowerCase() === name.toLowerCase()
+      );
+      if (isDuplicateName) {
+        throw new Error('This contact name already exists in the phone book!');
+      }
       state.contacts.push(action.payload);
-    },
-    deleteContact: (state, action) => {
+    }, 
+  
+  deleteContact: (state, action) => {
       state.contacts = state.contacts.filter(
         contact => contact.id !== action.payload
       );

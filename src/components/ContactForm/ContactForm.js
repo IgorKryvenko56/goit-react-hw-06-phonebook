@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from '../../redux/selectors';
 import { saveContact } from '../../redux/contactsSlice';
-import {
-  FormContainer,
-  Button,
-} from './ContactForm.styled';
+import { FormContainer, Input, Button } from './ContactForm.styled';
 
 const initialValues = {
-  id: '',
   name: '',
   number: '',
 };
@@ -19,30 +16,42 @@ const ContactForm = () => {
   const [contact, setContact] = useState(initialValues);
   const { name, number } = contact;
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setContact((prevState) => ({
+    setContact(prevState => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    const isDuplicateName = contacts && contacts.some((contact) => contact.name === name);
+    const flattenedContacts = contacts.flat(); // Flatten the nested arrays
+
+    const isDuplicateName = flattenedContacts.some(
+      contact =>
+        contact &&
+        contact.name &&
+        contact.name.toLowerCase() === name.toLowerCase()
+    );
 
     if (isDuplicateName) {
       alert('This contact name already exists in the phone book!');
     } else {
-      dispatch(saveContact(contact));
+      const newContact = {
+        id: `id-${Date.now()}`,
+        name: name,
+        number: number,
+      };
+      dispatch(saveContact(newContact));
       setContact(initialValues);
     }
   };
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <input
+      <Input
         type="text"
         name="name"
         value={name}
@@ -50,7 +59,7 @@ const ContactForm = () => {
         placeholder="Name"
         required
       />
-      <input
+      <Input
         type="tel"
         name="number"
         value={number}
@@ -58,12 +67,13 @@ const ContactForm = () => {
         placeholder="Phone number"
         required
       />
-      <Button type="submit">
-        Add Contact
-      </Button>
+      <Button type="submit">Add Contact</Button>
     </FormContainer>
   );
 };
 
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
 
 export default ContactForm;

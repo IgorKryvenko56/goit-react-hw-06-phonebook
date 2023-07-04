@@ -12,12 +12,14 @@ import {
 } from './ContactList.styled';
 import { nanoid } from 'nanoid';
 
-const ContactList = ({ contacts }) => {
+const ContactList = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.contacts);
   const filter = useSelector(getFilter);
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+  const filteredContacts = contacts.filter(
+    contact =>
+      contact.name && contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   const handleDelete = id => {
@@ -46,7 +48,7 @@ ContactList.propTypes = {
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     })
-  ).isRequired,
+  ),
 };
 
 export default ContactList;
