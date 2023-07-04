@@ -9,8 +9,7 @@ import phonebookImage from '../asset/phonebook.png';
 import { persistor } from '../redux/store';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const [filter, setFilter] = useState('');
+ const [filter, setFilter] = useState('');
 
   const handleFilterChange = value => {
     setFilter(value);

@@ -13,7 +13,7 @@ export const contactsSlice = createSlice({
   initialState,
   reducers: {
     saveContact: (state, action) => {
-     const { id, name, number } = action.payload;
+     const { name } = action.payload;
       const isDuplicateName = state.contacts.some(
         contact =>
           contact.name && contact.name.toLowerCase() === name.toLowerCase()
