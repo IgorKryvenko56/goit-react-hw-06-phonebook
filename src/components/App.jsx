@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
