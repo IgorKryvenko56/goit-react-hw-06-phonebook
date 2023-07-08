@@ -1,41 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { initialContacts } from '../data/initialContacts';
-
-
+import { initialContacts } from '../data/initialContacts';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const initialState = {
-  contacts: [],
-  filter: '',
+  list: initialContacts,
 };
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    saveContact: (state, action) => {
-     const { name } = action.payload;
-      const isDuplicateName = state.contacts.some(
-        contact =>
-          contact.name && contact.name.toLowerCase() === name.toLowerCase()
-      );
-      if (isDuplicateName) {
-        throw new Error('This contact name already exists in the phone book!');
-      }
-      state.contacts.push(action.payload);
-    }, 
-  
-  deleteContact: (state, action) => {
-      state.contacts = state.contacts.filter(
-        contact => contact.id !== action.payload
-      );
+    saveContact: {
+      reducer: (state, action) => {
+        state.list.push(action.payload);
+      },
+
+      prepare: ({ id, name, number }) => ({
+          payload: {
+            id,
+            name,
+            number,
+          },
+      }),
     },
-    updateFilter: (state, action) => {
-      state.filter = action.payload;
+
+    deleteContact: (state, action) => {
+      state.list = state.list.filter(contact => contact.id !== action.payload);
     },
   },
 });
 
-export const { saveContact, deleteContact, updateFilter } =
-  contactsSlice.actions;
+const persistConfig = {
+  key: 'contacts',
+  storage,
+};
 
-export default contactsSlice.reducer;
+const contactReducer = contactsSlice.reducer;
+export const { saveContact, deleteContact } = contactsSlice.actions;
+export const persistedContactsReducer = persistReducer(
+  persistConfig,
+  contactReducer
+);
+

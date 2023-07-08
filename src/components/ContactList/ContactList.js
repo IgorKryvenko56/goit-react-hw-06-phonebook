@@ -1,25 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from '../../redux/contactsSlice';
-import { getFilter } from '../../redux/selectors';
-import {
-  ListContainer,
-  ListItem,
-  ContactName,
-  ContactNumber,
-  DeleteButton,
-} from './ContactList.styled';
+ import React from 'react';
+ import PropTypes from 'prop-types';
+ import { useDispatch, useSelector } from 'react-redux';
+ import { deleteContact } from '../../redux/contactsSlice';
+ import { getContactFilter, getContacts } from '../../redux/selectors';
+ import {
+   ListContainer,
+   ListItem,
+   ContactName,
+   ContactNumber,
+   DeleteButton,
+ } from './ContactList.styled';
 import { nanoid } from 'nanoid';
 
-const ContactList = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(getFilter);
+export const ContactList = () => {
+   const dispatch = useDispatch();
+   const contacts = useSelector(getContacts);
+   const filter = useSelector(getContactFilter);
 
-  const filteredContacts = contacts.filter(
-    contact =>
-      contact.name && contact.name.toLowerCase().includes(filter.toLowerCase())
+   const filteredContacts = contacts.filter(
+     contact =>
+     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   const handleDelete = id => {
@@ -27,19 +27,21 @@ const ContactList = () => {
   };
 
   return (
-    <ListContainer>
-      {filteredContacts.map(contact => (
-        <ListItem key={nanoid()}>
-          <ContactName>{contact.name}</ContactName>
-          <ContactNumber>{contact.number}</ContactNumber>
-          <DeleteButton type="button" onClick={() => handleDelete(contact.id)}>
-            Delete
-          </DeleteButton>
-        </ListItem>
-      ))}
-    </ListContainer>
+     <>
+     <ListContainer>
+       {filteredContacts.map(contact => (
+        <ListItem key={contact.id}>
+           <ContactName>{contact.name}</ContactName>
+           <ContactNumber>{contact.number}</ContactNumber>
+           <DeleteButton type="button" onClick={() => handleDelete(contact.id)}>
+             Delete
+           </DeleteButton>
+       </ListItem>
+       ))}
+      </ListContainer>
+    </>
   );
-};
+ };
 
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
@@ -52,5 +54,3 @@ ContactList.propTypes = {
 };
 
 export default ContactList;
-
-
