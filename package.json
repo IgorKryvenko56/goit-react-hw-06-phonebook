@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://IgorKryvenko56.github.io/goit-react-hw-06-phonebook/",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@redux-devtools/extension": "^3.2.5",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.3",
