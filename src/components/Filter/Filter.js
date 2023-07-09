@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getContactFilter } from 'redux/selectors';
 import { setContactFilter } from 'redux/filterSlice';
 import { Input } from './Filter.styled';
+import { nanoid } from 'nanoid';
 
 export const Filter = () => {
   const dispatch = useDispatch();

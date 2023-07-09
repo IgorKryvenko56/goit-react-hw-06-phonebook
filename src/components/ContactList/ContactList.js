@@ -30,7 +30,7 @@ export const ContactList = () => {
      <>
      <ListContainer>
        {filteredContacts.map(contact => (
-        <ListItem key={contact.id}>
+        <ListItem key={nanoid()}>
            <ContactName>{contact.name}</ContactName>
            <ContactNumber>{contact.number}</ContactNumber>
            <DeleteButton type="button" onClick={() => handleDelete(contact.id)}>
