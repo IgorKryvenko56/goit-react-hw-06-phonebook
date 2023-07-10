@@ -10,7 +10,7 @@
    ContactNumber,
    DeleteButton,
  } from './ContactList.styled';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 
 export const ContactList = () => {
    const dispatch = useDispatch();
