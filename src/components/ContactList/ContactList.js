@@ -1,5 +1,4 @@
  import React from 'react';
- import PropTypes from 'prop-types';
  import { useDispatch, useSelector } from 'react-redux';
  import { deleteContact } from '../../redux/contactsSlice';
  import { getContactFilter, getContacts } from '../../redux/selectors';
@@ -10,15 +9,14 @@
    ContactNumber,
    DeleteButton,
  } from './ContactList.styled';
-// import { nanoid } from 'nanoid';
+
 
 export const ContactList = () => {
    const dispatch = useDispatch();
    const contacts = useSelector(getContacts);
    const filter = useSelector(getContactFilter);
 
-   const filteredContacts = contacts.filter(
-     contact =>
+   const filteredContacts = contacts.filter(contact =>
      contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
@@ -42,15 +40,5 @@ export const ContactList = () => {
     </>
   );
  };
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-};
 
 export default ContactList;

@@ -5,10 +5,9 @@ import { setContactFilter } from 'redux/filterSlice';
 // import { Input } from './Filter.styled';
 
 
-export const Filter = ({ value = '', onChange } ) => {
+export const Filter = ({ value = '', onChange }) => {
   const dispatch = useDispatch();
   const filter = useSelector(getContactFilter);
-
   const handleFilterChange = e => {
     dispatch(setContactFilter(e.target.value));
   };
@@ -24,8 +23,5 @@ return (
   />
 );
 };
-
-
-
 
 export default Filter;
